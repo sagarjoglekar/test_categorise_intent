@@ -1,43 +1,27 @@
-# Intent classification from text. 
-The two notebooks show my approach in solving the intent classification problem from text. 
 
-## The approach :
-I decided to take two approaches to solve this problem 
+# Development approach
 
-- [1] One fairly simple approach, which uses Tf-Idf vectorization to convert text into vectors, and then trains logistic regression on top
+Training and tuning models for this large dataset was a but challenging due to the size. The model parameter tuning can be seen in notebooks folder. The final grid search for both models was done on a smaller sample. The model's label distribution is skewed, with the average at about 450. But there are several labels with much lower prevalence. 
 
-- [2] A bit more complicated which uses spacy pretrained model to convert text into embeddings and then train an MLP classifier on top. 
+## Whis is the type of model you selected for the problem and why.
 
-Both approaches deliver results, but for the the TFIDF approach wins by a large margin, and that too considering the simpler lighter structure of the model. 
+I have tried with two models, 
+1. first is a simple TF-IDF model to extract the textual representations from the text and then a LinearSVC classifier to classify. The model yields an average F-score of 0.62
+2. The second model uses spacy embeddings topped with a MLP classifier to classify. This model performs <put numbers here >. 
+The problems seems simple enought for this approach to work. The label distribution and the number of labels makes it a bit intractable to train. 
 
-# Model Details. 
+##  What are pre-processing steps that you took prior to training the model and why.
+I tried to split the model into two models as low prevalence and high prevalence labels, but that created unnecessary complexity. Finally the current model is simple but effective on high prevalence labels. 
 
-Lets dive into the individual models. Both models are built using similar recipies: 
-- The first part is the model design with model description. 
-- Then the model optimisation using Grid search using 5 fold cross validation.
-- Then a complete fit using the best parameters. 
-- Then some performance analysis using average precision, confusion, and other per intent metrics. 
-- Finally a complete fit on the training data with saved model output and model binary. 
+## What are methods you considered when evaluating the performance of model and why.
 
+I evaluated in general based on F1 scores. There are simply too many labels types (1400) to drill down and evaluate individually in the limited time. 
 
-## TF-IDF model 
-This is a simple model that converts text into vectors using TF-IDF. It then fit logistic regression classifiers for each of the intent using One Vs Rest scheme. 
+## What are the weaknesses and possible improvements of the selected model for the given problem.
 
-- The model attains a 5 fold CV accuracy of 93.5 % 
-- The model generates an average weighted precision of 94%, recall of 94%, and F1-score of 94% 
-- The model's worst performing class is restaurant reservation, most confused with cancel_reservation and confirm_reservation
+The key weakness here is the presence of large number of labels and modest samples per label. 
+A better approach could be creating a heirarchical grouping of these labels and train an ensemble of models for each level of the heirarchy. This would provide a better control over individual groups of labels, and would allow us to change the model parameters based on the distribution of labels in each group. 
 
+## What are architectural design that you would consider to manage and serve the model in the future.
 
-## Spacy model 
-This model uses spacy pretrained model to extract embeddings from the text, and then trains a Multi Layered Perceptron on top. 
-
-- The model attains a 5 fold CV accuracy of 78%
-- The model generates an average weighted precision of 80%, recall of 79%, and F1-score of 79%  
-
-- the model's worst performing intent is "no", most commonly confused with yes, maybe, and who_made_you
-
-
-
-# Model outputs and binaries. 
-- The model inference outputs are saved in the outputs directory 
-- The model binaries are saved in the models directory
+The model architecture and size is simple at this point, so a simple docker image deployed in k8s to scale would be enough. But if this was done by heirarchical means, we would need cascades of models and an orchestrator to allow us to provide heirarchical inference. 

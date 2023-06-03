@@ -11,9 +11,10 @@ app = Flask(__name__)
 def predict():
     # Get the data from the request
     data = request.get_json()
+    text_array = data["texts"]
 
     # Make predictions using the model
-    predictions = model.predict(data)
+    predictions = model.predict(text_array).tolist()
 
     # Return the predictions as a response
     return {'predictions': predictions}

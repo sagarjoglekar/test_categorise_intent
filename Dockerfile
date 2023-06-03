@@ -9,8 +9,6 @@ COPY requirements.txt .
 
 COPY download_data.py .
 
-COPY download_models.py .
-
 # Install project dependencies
 RUN pip install -r requirements.txt
 
