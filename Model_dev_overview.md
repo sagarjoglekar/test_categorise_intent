@@ -7,7 +7,7 @@ Training and tuning models for this large dataset was a but challenging due to t
 
 I have tried with two models, 
 1. first is a simple TF-IDF model to extract the textual representations from the text and then a LinearSVC classifier to classify. The model yields an average F-score of 0.62
-2. The second model uses spacy embeddings topped with a MLP classifier to classify. This model performs <put numbers here >. 
+2. The second model uses spacy embeddings topped with a MLP classifier to classify. This model performs with an average f1 of 0.60. 
 The problems seems simple enought for this approach to work. The label distribution and the number of labels makes it a bit intractable to train. 
 
 ##  What are pre-processing steps that you took prior to training the model and why.
