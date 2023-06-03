@@ -2,9 +2,13 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.pyc
+*.pdf
+*.joblib
 # C extensions
 *.so
+
+notebooks/*
 
 # Distribution / packaging
 .Python

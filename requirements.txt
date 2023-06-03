@@ -1,0 +1,4 @@
+joblib
+scikit-learn
+spacy==3.5.3
+en-core-web-md==3.5.0
