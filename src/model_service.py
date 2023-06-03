@@ -1,12 +1,13 @@
 from flask import Flask, request
+import joblib
 
 # Load your model object
-model = load_model_object()  # Update this line with your actual code
+model = joblib.load("TfIdfClassifier.joblib")  # Update this line with your actual code
 
 # Create a Flask app
 app = Flask(__name__)
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['GET'])
 def predict():
     # Get the data from the request
     data = request.get_json()

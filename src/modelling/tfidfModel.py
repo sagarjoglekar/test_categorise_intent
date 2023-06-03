@@ -10,7 +10,8 @@ class TfidfModel:
         self.train_mode = False
         # These params were found using grid search separately
         self.best_params = {'clf__C': 1, 'tfidf__max_features': 10000, 'tfidf__ngram_range': (1, 1)}
-
+        self.model = None
+       
         if not model_file:
             self.train_mode = True
             self.pipeline = Pipeline([
@@ -41,3 +42,4 @@ class TfidfModel:
 
     def fit(self, df, text_field, label_field):
         self.pipeline.fit(df[text_field], df[label_field])
+        self.model = self.pipeline
